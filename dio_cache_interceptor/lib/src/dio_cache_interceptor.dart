@@ -7,6 +7,7 @@ import 'model/cache_options.dart';
 import 'util/response_extension.dart';
 
 /// Cache interceptor
+
 class DioCacheInterceptor extends Interceptor {
   static const String _getMethodName = 'GET';
   static const String _postMethodName = 'POST';
@@ -163,6 +164,9 @@ class DioCacheInterceptor extends Interceptor {
     Response? response,
     DioException? error,
   }) {
+    if (response?.headers.map.containsKey("Api-Error") == true) {
+      return true;
+    }
     if (error?.type == DioExceptionType.cancel) {
       return true;
     }
