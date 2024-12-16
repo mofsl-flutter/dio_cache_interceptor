@@ -52,6 +52,10 @@ class CacheStrategyFactory {
       request.headerValuesAsList(cacheControlHeader),
     );
 
+    if (_shouldCacheManually(rqCacheCtrl)) {
+      response?.headers.set(cacheControlHeader, _getManualCacheController());
+    }
+
     // Build cache reponse
     final resp = response;
     if (resp != null && cacheResponse == null) {
@@ -146,5 +150,21 @@ class CacheStrategyFactory {
     result |= respCacheCtrl.maxAge > 0;
 
     return result;
+  }
+
+  int get _maxStaleInSeconds => cacheOptions.maxStale?.inSeconds ?? 0;
+
+  bool _shouldCacheManually(CacheControl rqCacheCtrl) {
+    final maxStalePeriod = _maxStaleInSeconds;
+    return maxStalePeriod > 0 &&
+        cacheOptions.policy == CachePolicy.request &&
+        rqCacheCtrl.maxStale <= 0;
+  }
+
+  CacheControl _getManualCacheController() {
+    return CacheControl(
+      maxAge: _maxStaleInSeconds,
+      maxStale: _maxStaleInSeconds,
+    );
   }
 }
