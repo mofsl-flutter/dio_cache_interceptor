@@ -11,7 +11,7 @@ dependencies:
     git:
       url: https://github.com/jeetmotilaloswal/dio_cache_interceptor.git
       path: dio_cache_interceptor
-      ref: master
+      ref: master_cache
   # https://pub.dev/packages/hive
   hive: ^2.0.5
 
