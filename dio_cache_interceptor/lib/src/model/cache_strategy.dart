@@ -161,10 +161,7 @@ class CacheStrategyFactory {
         rqCacheCtrl.maxStale <= 0;
   }
 
-  CacheControl _getManualCacheController() {
-    return CacheControl(
-      maxAge: _maxStaleInSeconds,
-      maxStale: _maxStaleInSeconds,
-    );
+  String _getManualCacheController() {
+    return 'public,max-age=$_maxStaleInSeconds';
   }
 }
